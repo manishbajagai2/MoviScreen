@@ -13,9 +13,10 @@ export default function Header(props) {
                 <img src={logo} alt="logo" />
             </div>
             <button
-                onClick={() => navigate(props.login ? "/login" : "/signup")}
+                onClick={() => navigate(props.login ? "/login" : "")}
+                className={!props.login ? "hidden" : ""}
             >
-                {props.login ? "Sign In" : "Sign Out"}
+                {props.login ? "Sign In" : ""}
             </button>
         </StyledHeader>
     )

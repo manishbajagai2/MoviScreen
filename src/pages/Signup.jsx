@@ -10,6 +10,8 @@ import Header from "../components/Header"
 import { firebaseAuth } from "../utils/firebase-config"
 import { device } from "../utils/device"
 
+import { FiChevronRight } from "react-icons/fi"
+
 function Signup() {
     const [showPassword, setShowPassword] = useState(false)
     const [formValues, setFormValues] = useState({
@@ -40,7 +42,7 @@ function Signup() {
         <Container showPassword={showPassword}>
             <BackgroundImage />
             <div className="content">
-                <Header login />
+                <Header login={true} />
                 <div className="body">
                     <div className="text">
                         <h1>Unlimited movies, TV shows and more.</h1>
@@ -77,6 +79,7 @@ function Signup() {
                         {!showPassword && (
                             <button onClick={() => setShowPassword(true)}>
                                 Get Started
+                                <FiChevronRight size={28} />
                             </button>
                         )}
                         {showPassword && (
@@ -142,15 +145,6 @@ const Container = styled.div`
                     font-size: 1rem;
                     color: rgba(255, 255, 255, 0.7);
                 }
-                button {
-                    padding: 0.5rem 1rem;
-                    background-color: #e50914;
-                    border: none;
-                    cursor: pointer;
-                    color: white;
-                    font-weight: bolder;
-                    font-size: 1.05rem;
-                }
             }
 
             @media ${device.tablet} {
@@ -202,10 +196,10 @@ const Container = styled.div`
             @media ${device.laptopL} {
                 .text {
                     h1 {
-                        width: 60%;
+                        width: 80%;
                         font-size: 3.75rem;
                         font-weight: 900;
-                        margin-top: 3.25rem;
+                        margin-top: 2.75rem;
                     }
 
                     h4 {
@@ -214,14 +208,14 @@ const Container = styled.div`
                     }
                     h6 {
                         font-size: 1.5rem;
-                        padding: 0.5rem;
+                        padding: 0 0.5rem;
                         line-height: 1.5;
                     }
                 }
                 .form {
                     margin-top: 2.5rem;
                     input[type="email"] {
-                        width: 50%;
+                        width: 40%;
                     }
                     input[type="password"] {
                         width: 30%;
@@ -230,14 +224,17 @@ const Container = styled.div`
             }
 
             button {
-                padding: 0.5rem 1rem;
+                padding: 0.9rem 3rem 0.9rem 2rem;
                 background-color: #e50914;
                 border: none;
+                border-radius: 0.2rem;
                 cursor: pointer;
                 color: white;
-                border-radius: 0.2rem;
                 font-weight: bolder;
-                font-size: 1.05rem;
+                font-size: 1.5rem;
+                svg{
+                  position: absolute;
+                }
             }
         }
     }
