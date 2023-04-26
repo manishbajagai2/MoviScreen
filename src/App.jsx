@@ -5,6 +5,7 @@ import Signup from "./pages/Signup"
 import Home from "./pages/Home"
 
 import "./index.css"
+import Profiles from "./pages/Profiles"
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
             <Routes>
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/signup" element={<Signup />} />
+                <Route exact path="/profiles" element={<Profiles />} />
                 <Route exact path="/" element={<Home />} />
             </Routes>
         </BrowserRouter>

@@ -35,7 +35,7 @@ function Signup() {
     }
 
     onAuthStateChanged(firebaseAuth, (currentUser) => {
-        if (currentUser) navigate("/")
+        if (currentUser) navigate("/profiles")
     })
 
     return (
@@ -224,16 +224,24 @@ const Container = styled.div`
             }
 
             button {
-                padding: 0.9rem 3rem 0.9rem 2rem;
+                padding: 0.8rem  1rem;
                 background-color: #e50914;
                 border: none;
                 border-radius: 0.2rem;
                 cursor: pointer;
                 color: white;
                 font-weight: bolder;
-                font-size: 1.5rem;
-                svg{
-                  position: absolute;
+                font-size: 1.30rem;
+                svg {
+                    display: inline-block;
+                    vertical-align: text-bottom;
+                }
+            }
+
+            @media ${device.tablet} {
+                button {
+                    padding: 0.9rem 3rem 0.9rem 2rem;
+                    font-size: 1.5rem;
                 }
             }
         }

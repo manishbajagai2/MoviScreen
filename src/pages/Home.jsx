@@ -1,12 +1,21 @@
-import BackgroundImage from "../components/BackgroundImage"
+import Navbar from "../components/Navbar"
 
-const Home = () => {
+import { onAuthStateChanged } from "firebase/auth"
+import { firebaseAuth } from "../utils/firebase-config"
+import { useNavigate } from "react-router-dom"
+
+function Home() {
+    const navigate = useNavigate()
+
+    onAuthStateChanged(firebaseAuth, (currentUser) => {
+        if (!currentUser) navigate("/login")
+    })
+
     return (
         <div>
-            <BackgroundImage />
+            <Navbar />
         </div>
     )
 }
-
 
 export default Home
