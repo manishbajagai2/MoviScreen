@@ -1,9 +1,9 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  line-height: 1.35;
   font-weight: 400;
 
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(255, 255, 255);
   background-color: #141414;
 
   font-synthesis: none;
@@ -30,6 +30,7 @@ body::-webkit-scrollbar {
 
 .flex {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .column {
@@ -38,6 +39,8 @@ body::-webkit-scrollbar {
 
 .j-between {
   justify-content: space-between;
+  flex-wrap: wrap;
+
 }
 
 .j-center {

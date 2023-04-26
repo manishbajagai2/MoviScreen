@@ -15,6 +15,7 @@ const Container = styled.div`
     img {
         height: 100vh;
         width: 100vw;
+        object-fit: cover;
         mask-image: linear-gradient(
             to top,
             rgba(20, 20, 20, 0) 0,
