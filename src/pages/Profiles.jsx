@@ -1,29 +1,22 @@
 /* eslint-disable react/prop-types */
 
-import { useCallback } from "react"
+import { onAuthStateChanged } from "firebase/auth"
+import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { firebaseAuth } from "../utils/firebase-config"
 
-import img1 from "../assets/images/default-blue.png"
-import img2 from "../assets/images/default-red.png"
-import img3 from "../assets/images/default-green.png"
-import img4 from "../assets/images/default-slate.png"
-
-const images = [img1, img2, img3, img4]
-
-const UserCard = ({ name }) => {
-    const imgSrc = images[Math.floor(Math.random() * 4)]
-
+const UserCard = ({ username, photoUrl }) => {
     return (
         <div className="group flex-row w-44 mx-auto">
             <div className="w-44 h-44 rounded-md flex items-center justify-center border-2 border-transparent group-hover:cursor-pointer group-hover:border-white overflow-hidden">
                 <img
                     className="h-max object-contain"
-                    src={imgSrc}
+                    src={photoUrl}
                     alt="Profile Images"
                 />
             </div>
-            <div className="mt-4 text-gray-400 text-2xl text-center group-hover:text-white">
-                {name}
+            <div className="mt-4 text-gray-400 text-2xl text-center group-hover:text-white group-hover:underline cursor-pointer">
+                {username}
             </div>
         </div>
     )
@@ -36,6 +29,20 @@ const Profiles = () => {
         navigate("/")
     }, [navigate])
 
+    const [username, setUsername] = useState("")
+    const [photoUrl, setPhotoUrl] = useState("")
+
+    useEffect(() => {
+        onAuthStateChanged(firebaseAuth, (currentUser) => {
+            setTimeout(() => {
+                if (currentUser) {
+                    setUsername(currentUser.displayName)
+                    setPhotoUrl(currentUser.photoURL)
+                }
+            }, 1000)
+        })
+    }, [])
+
     return (
         <div className="grid h-screen place-items-center">
             <div className="flex flex-col ">
@@ -44,7 +51,7 @@ const Profiles = () => {
                 </h1>
                 <div className="flex items-center justify-center gap-8 mt-10">
                     <div onClick={() => selectProfile()} className="flex gap-5">
-                        <UserCard name="Manish" />
+                        <UserCard username={username} photoUrl={photoUrl} />
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import background from "../assets/login.jpeg"
+
 import Header from "../components/Header"
 
 import { useState } from "react"
@@ -7,8 +7,10 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"
 import { firebaseAuth } from "../utils/firebase-config"
 
 import { device } from "../utils/device"
+import { toast } from "react-hot-toast"
 
 import styled from "styled-components"
+import BackgroundImage from "../components/BackgroundImage"
 
 function Login() {
     const [email, setEmail] = useState("")
@@ -19,11 +21,15 @@ function Login() {
         navigate("/signup")
     }
     const handleLogin = async () => {
-        if(email === '' || password === '') return
+        if (email === "" || password === "") {
+            toast.error("Please fill all the fields")
+            return
+        }
         try {
             await signInWithEmailAndPassword(firebaseAuth, email, password)
-        } catch (error) {
-            console.log(error.code)
+            toast.success("Signed in successfully")
+        } catch (err) {
+            toast.error(`${err.message}`)
         }
     }
 
@@ -33,12 +39,12 @@ function Login() {
 
     return (
         <Container>
-            <img src={background} alt="background image" />
+            <BackgroundImage />
             <div className="content">
                 <Header />
                 <div className="form-container flex column a-center j-center">
                     <div className="form">
-                        <div className="title">
+                        <div className="title text-2xl font-semibold lg:text-3xl">
                             <h1>Sign In</h1>
                         </div>
                         <div className="container flex column">

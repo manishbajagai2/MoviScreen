@@ -1,5 +1,6 @@
 import {
     createUserWithEmailAndPassword,
+    updateProfile,
     onAuthStateChanged,
 } from "firebase/auth"
 import { useState } from "react"
@@ -9,27 +10,56 @@ import BackgroundImage from "../components/BackgroundImage"
 import Header from "../components/Header"
 import { firebaseAuth } from "../utils/firebase-config"
 import { device } from "../utils/device"
+import { toast } from "react-hot-toast"
 
 import { FiChevronRight } from "react-icons/fi"
+
+const images = [
+    "https://raw.githubusercontent.com/manishbajagai2/FilmyScreen/main/public/images/default-blue.png",
+    "https://raw.githubusercontent.com/manishbajagai2/FilmyScreen/main/public/images/default-green.png",
+    "https://raw.githubusercontent.com/manishbajagai2/FilmyScreen/main/public/images/default-red.png",
+    "https://raw.githubusercontent.com/manishbajagai2/FilmyScreen/main/public/images/default-slate.png",
+]
 
 function Signup() {
     const [showPassword, setShowPassword] = useState(false)
     const [formValues, setFormValues] = useState({
         email: "",
+        username: "",
         password: "",
     })
+    const imgSrc = images[Math.floor(Math.random() * 4)]
+
+    const [submitBtnDisabled, setSubmitBtnDisabled] = useState(false)
+
     const navigate = useNavigate()
 
-    const handleSignIn = async () => {
-        const { email, password } = formValues
-        if (email === "" || password === "") return
-        try {
-            await createUserWithEmailAndPassword(firebaseAuth, email, password)
-        } catch (error) {
-            console.log(error)
+    const handleSignIn = () => {
+        const { email, username, password } = formValues
+        if (email === "" || username === "" || password === ""){
+            toast.error('Please fill all the fields')
+            return
         }
+        setSubmitBtnDisabled(true)
+        createUserWithEmailAndPassword(firebaseAuth, email, password)
+            .then(async (res) => {
+                setSubmitBtnDisabled(false)
+                const user = res.user
+                await updateProfile(user, {
+                    displayName: username,
+                    photoURL: imgSrc,
+                })
+                console.log(user)
+                toast.success("Account created successfully")
+            })
+            .catch((err) => {
+                toast.error(`${err.message}`)
+                setSubmitBtnDisabled(false)
+                // console.log(err)
+            })
         setFormValues({
             email: "",
+            username: "",
             password: "",
         })
     }
@@ -52,6 +82,7 @@ function Signup() {
                     <div className="form">
                         <input
                             type="email"
+                            required
                             placeholder="Email address"
                             onChange={(e) =>
                                 setFormValues({
@@ -64,7 +95,23 @@ function Signup() {
                         />
                         {showPassword && (
                             <input
+                                type="text"
+                                required
+                                placeholder="Username"
+                                onChange={(e) =>
+                                    setFormValues({
+                                        ...formValues,
+                                        [e.target.name]: e.target.value,
+                                    })
+                                }
+                                name="username"
+                                value={formValues.username}
+                            />
+                        )}
+                        {showPassword && (
+                            <input
                                 type="password"
+                                required
                                 placeholder="Password"
                                 onChange={(e) =>
                                     setFormValues({
@@ -83,7 +130,13 @@ function Signup() {
                             </button>
                         )}
                         {showPassword && (
-                            <button onClick={handleSignIn}>Sign Up</button>
+                            <button
+                                className="lg:mx-auto"
+                                onClick={handleSignIn}
+                                disabled={submitBtnDisabled}
+                            >
+                                Sign Up
+                            </button>
                         )}
                     </div>
                 </div>
@@ -145,6 +198,9 @@ const Container = styled.div`
                     font-size: 1rem;
                     color: rgba(255, 255, 255, 0.7);
                 }
+                button:disabled {
+                    background: gray !important;
+                }
             }
 
             @media ${device.tablet} {
@@ -188,7 +244,16 @@ const Container = styled.div`
                 .form {
                     margin-top: 2.75rem;
                     input[type="email"] {
-                        width: 50%;
+                        width: 30%;
+                    }
+                    input[type="text"] {
+                        width: 30%;
+                    }
+                    input[type="password"] {
+                        width: 30%;
+                    }
+                    button {
+                        padding: 0.6rem 2rem;
                     }
                 }
             }
@@ -214,24 +279,18 @@ const Container = styled.div`
                 }
                 .form {
                     margin-top: 2.5rem;
-                    input[type="email"] {
-                        width: 40%;
-                    }
-                    input[type="password"] {
-                        width: 30%;
-                    }
                 }
             }
 
             button {
-                padding: 0.8rem  1rem;
+                padding: 0.8rem 1rem;
                 background-color: #e50914;
                 border: none;
                 border-radius: 0.2rem;
                 cursor: pointer;
                 color: white;
                 font-weight: bolder;
-                font-size: 1.30rem;
+                font-size: 1.3rem;
                 svg {
                     display: inline-block;
                     vertical-align: text-bottom;

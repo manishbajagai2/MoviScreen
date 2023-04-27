@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
 import { signOut } from "firebase/auth"
-import profilePic from "../assets/images/default-blue.png"
 import { firebaseAuth } from "../utils/firebase-config"
 
-const AccountMenu = ({visible}) => {
+const AccountMenu = ({visible, username, photoUrl}) => {
 
     if(!visible) {
         return null
@@ -15,11 +14,11 @@ const AccountMenu = ({visible}) => {
                 <div className="px-3 group/item flex flex-row gap-3 items-center w-full">
                     <img
                         className="w-8 rounded-md"
-                        src={profilePic}
+                        src={photoUrl}
                         alt="Profile Pic"
                     />
                     <p className="text-white text-sm group-hover/item:underline">
-                        Manish
+                        {username}
                     </p>
                 </div>
             </div>
@@ -28,7 +27,7 @@ const AccountMenu = ({visible}) => {
                 onClick={() => signOut(firebaseAuth)}
                 className="px-3 text-center text-white text-sm hover:underline"
             >
-                Sign out of Netflix
+                Sign out of MoviScreen
             </div>
         </div>
     )

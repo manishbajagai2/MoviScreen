@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import logo from "../assets/logo.png"
-import profileImage from "../assets/images/default-blue.png"
 // import { signOut } from "firebase/auth"
 // import { firebaseAuth } from "../utils/firebase-config"
 // import { FaPowerOff } from "react-icons/fa"
@@ -13,6 +12,8 @@ import AccountMenu from "./AccountMenu"
 import MobileMenu from "./MobileMenu"
 import { navitems } from "../utils/navitems"
 import { NavLink, useNavigate } from "react-router-dom"
+import { onAuthStateChanged } from "firebase/auth"
+import { firebaseAuth } from "../utils/firebase-config"
 
 const TOP_OFFSET = 66
 
@@ -60,6 +61,19 @@ const Navbar = () => {
         }
     }, [])
 
+    const [username, setUsername] = useState("")
+    const [photoUrl, setPhotoUrl] = useState("")
+
+    useEffect(() => {
+        onAuthStateChanged(firebaseAuth, (currentUser) => {
+            setTimeout(() => {
+                if (currentUser) {
+                    setUsername(currentUser.displayName)
+                    setPhotoUrl(currentUser.photoURL)
+                }
+            }, 1000)
+        })
+    }, [])
 
     const toggleAccountMenu = useCallback(() => {
         setIsOpenAccountMenu((current) => !current)
@@ -163,7 +177,7 @@ const Navbar = () => {
                         <div className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 rounded-md overflow-hidden">
                             <img
                                 className="h-max object-contain"
-                                src={profileImage}
+                                src={photoUrl}
                                 alt="Profile Image"
                             />
                         </div>
@@ -173,7 +187,11 @@ const Navbar = () => {
                                 isOpenAccountMenu ? "rotate-180" : "rotate-0"
                             }`}
                         />
-                        <AccountMenu visible={isOpenAccountMenu} />
+                        <AccountMenu
+                            visible={isOpenAccountMenu}
+                            username={username}
+                            photoUrl={photoUrl}
+                        />
                     </div>
                 </div>
             </div>
