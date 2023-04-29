@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components"
 import background from "../assets/login.jpeg"
 
-function BackgroundImage() {
+function BackgroundImage({ imgSrc }) {
     return (
         <Container>
-            <img src={background} alt="background image" />
+            <img src={imgSrc ? imgSrc : background} alt="background image" />
         </Container>
     )
 }
