@@ -1,8 +1,5 @@
 /* eslint-disable react/prop-types */
 import logo from "../assets/logo.png"
-// import { signOut } from "firebase/auth"
-// import { firebaseAuth } from "../utils/firebase-config"
-// import { FaPowerOff } from "react-icons/fa"
 
 import { useCallback, useEffect, useRef, useState } from "react"
 

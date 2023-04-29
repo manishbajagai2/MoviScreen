@@ -10,7 +10,8 @@ import "./index.css"
 import Profiles from "./pages/Profiles"
 import Player from "./pages/Player"
 import TVShows from "./pages/TVShows"
-import { MoviePage } from "./pages/MoviePage"
+import MoviePage from "./pages/MoviePage"
+import UserListedMovies from "./pages/UserListedMovies"
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                     <Route exact path="/player/:id" element={<Player />} />
                     <Route exact path="/tv" element={<TVShows />} />
                     <Route exact path="/movies" element={<MoviePage />} />
+                    <Route exact path="/mylist" element={<UserListedMovies />} />
                     <Route exact path="/profiles" element={<Profiles />} />
                     <Route exact path="/" element={<Home />} />
                 </Routes>

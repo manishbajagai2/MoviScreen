@@ -29,7 +29,7 @@ export const Billboard = ({ movie }) => {
     }
 
     return (
-        <div className="flex flex-col space-y-2 pt-28 md:pt-32 md:space-y-4 lg:h-[65vh] lg:justify-end">
+        <div className="flex flex-col space-y-2 pt-28 md:pt-32 md:space-y-4 lg:h-[75vh] lg:justify-end">
             <div className="absolute top-0 left-0 -z-10 h-[95vh] w-screen opacity-20 md:opacity-30 lg:opacity-70 ">
                 <img
                     src={`${TMDB_IMAGE_BASE_URL}${

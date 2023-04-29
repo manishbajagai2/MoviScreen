@@ -1,10 +1,12 @@
-import { useState } from "react"
-import Navbar from "../components/Navbar"
-import { onAuthStateChanged } from "firebase/auth"
-import { firebaseAuth } from "../utils/firebase-config"
-import { useNavigate } from "react-router-dom"
+/* eslint-disable react/prop-types */
 
-function TVShows() {
+import { onAuthStateChanged } from "firebase/auth"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { firebaseAuth } from "../utils/firebase-config"
+import Navbar from "../components/Navbar"
+export default function UserListedMovies() {
+
     const navigate = useNavigate()
     const [user, setUser] = useState(undefined)
     console.log(user)
@@ -13,7 +15,6 @@ function TVShows() {
         if (currentUser) setUser(currentUser.uid)
         else navigate("/login")
     })
+
     return (<Navbar />)
 }
-
-export default TVShows

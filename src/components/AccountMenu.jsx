@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { signOut } from "firebase/auth"
 import { firebaseAuth } from "../utils/firebase-config"
+import { useNavigate } from "react-router-dom"
 
 const AccountMenu = ({visible, username, photoUrl}) => {
+    const navigate = useNavigate()
 
     if(!visible) {
         return null
@@ -11,7 +13,7 @@ const AccountMenu = ({visible, username, photoUrl}) => {
     return (
         <div className="bg-black w-56 absolute top-14 right-0 py-5 flex-col border-2 border-gray-800 flex">
             <div className="flex flex-col gap-3">
-                <div className="px-3 group/item flex flex-row gap-3 items-center w-full">
+                <div className="px-3 group/item flex flex-row gap-3 items-center w-full" onClick={() => navigate('/profiles')} >
                     <img
                         className="w-8 rounded-md"
                         src={photoUrl}
