@@ -20,10 +20,9 @@ function App() {
                 <Routes>
                     <Route exact path="/login" element={<Login />} />
                     <Route exact path="/signup" element={<Signup />} />
-                    <Route exact path="/player" element={<Player />} />
+                    <Route exact path="/player/:id" element={<Player />} />
                     <Route exact path="/tv" element={<TVShows />} />
                     <Route exact path="/movies" element={<MoviePage />} />
-                    <Route exact path="/new" element={<Player />} />
                     <Route exact path="/profiles" element={<Profiles />} />
                     <Route exact path="/" element={<Home />} />
                 </Routes>
