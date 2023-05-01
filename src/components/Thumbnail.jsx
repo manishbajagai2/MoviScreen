@@ -20,7 +20,7 @@ function Thumbnail({ movie }) {
                 src={`https://image.tmdb.org/t/p/w500${
                     movie.backdrop_path || movie.poster_path
                 }`}
-                className="rounded-sm object-cover md:rounded"
+                className="rounded-sm object-cover md:rounded max-h-36"
                 width={"100%"}
                 height={"100%"}
             />

@@ -82,11 +82,14 @@ const Navbar = () => {
     }, [])
 
     return (
-        <nav className="w-full fixed z-40" ref={wrapperRef}>
+        <nav
+            className={`w-full fixed z-40 ${
+                showBackground ? "bg-zinc-900 bg-opacity-90" : ""
+            }`}
+            ref={wrapperRef}
+        >
             <div
-                className={`px-4 md:px-8 py-6 flex flex-row items-center transition duration-500 ${
-                    showBackground ? "bg-zinc-900 bg-opacity-90" : ""
-                }`}
+                className={`px-4 md:px-8 py-4 flex flex-row items-center transition duration-500`}
             >
                 <img
                     className="w-44 h-auto hidden md:block cursor-pointer"
