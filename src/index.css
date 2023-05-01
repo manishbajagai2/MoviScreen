@@ -23,6 +23,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-red-600;
+  }
+}
+
 .bannerButton {
     @apply flex items-center gap-x-3 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 md:py-2 md:px-6 md:text-xl;
 }
