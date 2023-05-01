@@ -12,8 +12,11 @@ import useSwr from "swr"
 import fetcher from "../libs/fetcher"
 
 import Row from "../components/Row"
+import useModalState from "../hooks/useModalState"
+import Modal from "../components/Modal"
 
 function Home() {
+    const { showModal } = useModalState()
     const urls = Object.values(requests)
     const { data: movieValues } = useSwr(
         urls,
@@ -46,13 +49,20 @@ function Home() {
     }, [data, navigate])
 
     return (
-        <div className="relative h-screen w-screen">
+        <div
+            className={`relative h-screen ${
+                showModal && "!h-screen overflow-hidden"
+            }`}
+        >
             <Navbar />
             <Billboard movie={randomMov} />
-            <section className="md:space-y-24 mx-4 md:mx-10 mt-10">
+            <section className="md:space-y-24 mx-4 md:mx-10 mt-10 pb-24">
                 {rowMovies.length > 0 && (
                     <>
-                        <Row title="Trending Now" movies={rowMovies[0]?.results} />
+                        <Row
+                            title="Trending Now"
+                            movies={rowMovies[0]?.results}
+                        />
                         <Row title="Top Rated" movies={rowMovies[1]?.results} />
                         <Row title="Animation" movies={rowMovies[2]?.results} />
                         <Row
@@ -63,7 +73,10 @@ function Home() {
                         {/* {list.length > 0 && <Row title="My List" movies={list} />} */}
 
                         <Row title="Comedies" movies={rowMovies[4]?.results} />
-                        <Row title="Scary Movies" movies={rowMovies[5]?.results} />
+                        <Row
+                            title="Scary Movies"
+                            movies={rowMovies[5]?.results}
+                        />
                         <Row
                             title="Romance Movies"
                             movies={rowMovies[6]?.results}
@@ -75,6 +88,7 @@ function Home() {
                     </>
                 )}
             </section>
+            {showModal && <Modal />}
         </div>
     )
 }

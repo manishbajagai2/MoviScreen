@@ -24,13 +24,17 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-red-600;
-  }
+    body {
+        @apply !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-red-600;
+    }
 }
 
 .bannerButton {
     @apply flex items-center gap-x-3 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 md:py-2 md:px-6 md:text-xl;
+}
+
+.modalButton {
+    @apply flex h-11 w-11 items-center justify-center rounded-full border-2 border-[gray] bg-[#2a2a2a]/60 transition hover:border-white hover:bg-white/10;
 }
 
 html,
@@ -81,4 +85,7 @@ body::-webkit-scrollbar {
         #141414 68%,
         #141414 100%
     );
+}
+.html5-video-container > .video-stream .html5-main-video{
+    height: 100px !important;
 }

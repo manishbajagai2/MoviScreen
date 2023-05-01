@@ -1,9 +1,9 @@
 import { create } from "zustand"
 
 const useModalState = create((set) => ({
-    isShowing: false,
-    show: () => set({ isShowing: true }),
-    hide: () => set({ isShowing: false }),
+    showModal: false,
+    show: () => set({ showModal: true }),
+    hide: () => set({ showModal: false }),
 }))
 
 export default useModalState

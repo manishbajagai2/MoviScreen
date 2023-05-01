@@ -1,7 +1,7 @@
 import { create } from "zustand"
 
 const useMovieState = create((set) => ({
-    movie: "Hi Bro",
+    movie: null,
     updateMovie: (newMovie) => set(() => ({ movie: newMovie })),
 }))
 

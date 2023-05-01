@@ -6,11 +6,19 @@ import { useEffect, useState } from "react"
 import ReactPlayer from "react-player/youtube"
 
 export default function Player() {
+    const [trailer, setTrailer] = useState("")
     const navigate = useNavigate()
     let { id } = useParams()
 
+    useEffect(() => {
+        const obj = JSON.parse(id)
+        if (Object.keys(obj).length < 2) {
+            const { movieId } = obj
+            setTrailer(movieId)
+        }
+    }, [id])
+
     const trailerData = usePlayerId(id)
-    const [trailer, setTrailer] = useState("")
 
     useEffect(() => {
         if (trailerData.data) {
@@ -20,7 +28,6 @@ export default function Player() {
             setTrailer(trailerData.data.videos?.results[index]?.key)
         }
     }, [trailerData.data])
-    
 
     return (
         <Container>

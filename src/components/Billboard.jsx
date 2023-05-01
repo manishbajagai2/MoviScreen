@@ -5,17 +5,22 @@ import { AiOutlineInfoCircle } from "react-icons/ai"
 import { TMDB_IMAGE_BASE_URL } from "../utils/constants"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import useMovieState from "../hooks/useMovieState"
+import useModalState from "../hooks/useModalState"
 
 export const Billboard = ({ movie }) => {
 
+    const { updateMovie } = useMovieState()
+    const { show } = useModalState()
+
     const navigate = useNavigate()
 
-    const [show, setShow] = useState(true)
+    const [showBlock, setShowBlock] = useState(true)
     const [fade, setFade] = useState(false)
 
     useEffect(() => {
         setTimeout(() => {
-            setShow(false)
+            setShowBlock(false)
             setFade(true)
         }, 10000)
     }, [])
@@ -52,7 +57,7 @@ export const Billboard = ({ movie }) => {
             <div
                 className={`transition-all ${
                     fade ? "lg:opacity-0 " : "lg:opacity-100"
-                } ${show ? "lg:block" : "lg:hidden"}`}
+                } ${showBlock ? "lg:block" : "lg:hidden"}`}
             >
                 <p className="max-w-xs text-xs text-shadow-md md:max-w-lg lg:max-w-2xl  md:text-lg lg:text-xl px-4 md:px-8 line-clamp-4">
                     {movie?.overview}
@@ -69,7 +74,10 @@ export const Billboard = ({ movie }) => {
 
                 <button
                     className="bannerButton bg-[gray]/70"
-                    onClick={() => {}}
+                    onClick={() => {
+                        updateMovie(movie)
+                        show(true)
+                    }}
                 >
                     <AiOutlineInfoCircle className="h-5 w-5 md:h-8 md:w-8" />{" "}
                     More Info
