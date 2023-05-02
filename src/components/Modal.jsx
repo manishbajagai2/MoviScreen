@@ -1,52 +1,56 @@
 import { useEffect, useState } from "react"
-// import { useRecoilState } from 'recoil'
-// import { modalState, movieState } from '../atoms/modalAtom.'
 import ReactPlayer from "react-player/youtube"
 import { FaPlay } from "react-icons/fa"
 import { HiOutlineThumbUp } from "react-icons/hi"
 import { RxCross2 } from "react-icons/rx"
 import { BsVolumeMute, BsVolumeUp } from "react-icons/bs"
-import { AiOutlineCheck } from "react-icons/ai"
+import { AiOutlineCheck, AiOutlinePlus } from "react-icons/ai"
 import MuiModal from "@mui/material/Modal"
-// import {
-//   collection,
-//   deleteDoc,
-//   doc,
-//   DocumentData,
-//   onSnapshot,
-//   setDoc,
-// } from 'firebase/firestore'
-// import { db } from '../firebase'
-// import useAuth from '../hooks/useAuth'
+import {
+    collection,
+    deleteDoc,
+    doc,
+    onSnapshot,
+    setDoc,
+} from "firebase/firestore"
 import toast, { Toaster } from "react-hot-toast"
 import useModalState from "../hooks/useModalState"
 import useMovieState from "../hooks/useMovieState"
 import { TMDB_API_KEY } from "../utils/constants"
 import { useNavigate } from "react-router-dom"
+import { onAuthStateChanged } from "firebase/auth"
+import { db, firebaseAuth } from "../utils/firebase-config"
 
 function Modal() {
     const [trailer, setTrailer] = useState("")
     const [muted, setMuted] = useState(true)
     const [genres, setGenres] = useState([])
-    // const [addedToList, setAddedToList] = useState(false)
-    // const { user } = useAuth()
-    // const [movies, setMovies] = useState([])
-    //   const [showModal, setShowModal] = useRecoilState(modalState)
-    const { showModal, hide } = useModalState()
-    // const [movie, setMovie] = useRecoilState(movieState)
-    const { movie, updateMovie } = useMovieState()
 
     const navigate = useNavigate()
+    const [user, setUser] = useState(undefined)
 
-    //   const toastStyle = {
-    //     background: 'white',
-    //     color: 'black',
-    //     fontWeight: 'bold',
-    //     fontSize: '16px',
-    //     padding: '15px',
-    //     borderRadius: '9999px',
-    //     maxWidth: '1000px',
-    //   }
+    useEffect(() => {
+        onAuthStateChanged(firebaseAuth, (currentUser) => {
+            if (currentUser) setUser(currentUser)
+            else navigate("/login")
+        })
+    }, [navigate])
+    
+
+    const [addedToList, setAddedToList] = useState(false)
+    const [movies, setMovies] = useState([])
+    const { showModal, hide } = useModalState()
+    const { movie, updateMovie } = useMovieState()
+
+    const toastStyle = {
+        background: "white",
+        color: "black",
+        fontWeight: "bold",
+        fontSize: "16px",
+        padding: "15px",
+        borderRadius: "9999px",
+        maxWidth: "1000px",
+    }
 
     useEffect(() => {
         if (!movie) return
@@ -79,60 +83,63 @@ function Modal() {
         toast.dismiss()
     }
 
-    //   // Find all the movies in the user's list
-    //   useEffect(() => {
-    //     if (user) {
-    //       return onSnapshot(
-    //         collection(db, 'customers', user.uid, 'myList'),
-    //         (snapshot) => setMovies(snapshot.docs)
-    //       )
-    //     }
-    //   }, [db, movie?.id])
+    // Find all the movies in the user's list
+    useEffect(() => {
+        if (user) {
+            return onSnapshot(
+                collection(db, "customers", user.uid, "myList"),
+                (snapshot) => setMovies(snapshot.docs)
+            )
+        }
+    }, [db, movie?.id, user])
 
-    //   // Check if the movie is already in the user's list
-    //   useEffect(
-    //     () =>
-    //       setAddedToList(
-    //         movies.findIndex((result) => result.data().id === movie?.id) !== -1
-    //       ),
-    //     [movies]
-    //   )
+    // Check if the movie is already in the user's list
+    useEffect(
+        () =>
+            setAddedToList(
+                movies.findIndex((result) => result.data().id === movie?.id) !==
+                    -1
+            ),
+        [movies, movie?.id]
+    )
 
-    //   const handleList = async () => {
-    //     if (addedToList) {
-    //       await deleteDoc(
-    //         doc(db, 'customers', user!.uid, 'myList', movie?.id.toString()!)
-    //       )
+    const handleList = async () => {
+        if (addedToList) {
+            await deleteDoc(
+                doc(db, "customers", user?.uid, "myList", movie?.id.toString())
+            )
 
-    //       toast(
-    //         `${movie?.title || movie?.original_name} has been removed from My List`,
-    //         {
-    //           duration: 8000,
-    //           style: toastStyle,
-    //         }
-    //       )
-    //     } else {
-    //       await setDoc(
-    //         doc(db, 'customers', user!.uid, 'myList', movie?.id.toString()!),
-    //         {
-    //           ...movie,
-    //         }
-    //       )
+            toast(
+                `${
+                    movie?.title || movie?.original_name
+                } has been removed from My List`,
+                {
+                    duration: 8000,
+                    style: toastStyle,
+                }
+            )
+        } else {
+            await setDoc(
+                doc(db, "customers", user?.uid, "myList", movie?.id.toString()),
+                {
+                    ...movie,
+                }
+            )
 
-    //       toast(
-    //         `${movie?.title || movie?.original_name} has been added to My List.`,
-    //         {
-    //           duration: 8000,
-    //           style: toastStyle,
-    //         }
-    //       )
-    //     }
-    //   }
-
-    //   console.log(addedToList)
+            toast(
+                `${
+                    movie?.title || movie?.original_name
+                } has been added to My List.`,
+                {
+                    duration: 8000,
+                    style: toastStyle,
+                }
+            )
+        }
+    }
 
     const handlePlayer = () => {
-        if(trailer){
+        if (trailer) {
             let obj = {}
             obj["movieId"] = trailer
             let details = JSON.stringify(obj)
@@ -167,22 +174,27 @@ function Modal() {
                         config={{
                             youtube: {
                                 playerVars: { showinfo: 0 },
-                            }
+                            },
                         }}
                     />
                     <div className="absolute bottom-10 flex w-full items-center justify-between px-10">
                         <div className="flex space-x-4">
-                            <button className="bannerButton flex items-center gap-x-2 rounded bg-white px-8 text-xl font-bold text-black transition hover:bg-[#e6e6e6]" onClick={handlePlayer}>
+                            <button
+                                className="bannerButton flex items-center gap-x-2 rounded bg-white px-8 text-xl font-bold text-black transition hover:bg-[#e6e6e6]"
+                                onClick={handlePlayer}
+                            >
                                 <FaPlay className="h-4 w-4 text-black md:h-5 md:w-5" />
                                 Play
                             </button>
-                            <button className="modalButton" onClick={() => {}}>
-                                {/* {addedToList ? (
-                  <AiOutlineCheck className="h-7 w-7" />
-                  ) : (
-                  <AiOutlinePlus className="h-7 w-7" />
-                )} */}
-                                <AiOutlineCheck className="h-4 w-4 md:h-5 md:w-5" />
+                            <button
+                                className="modalButton"
+                                onClick={handleList}
+                            >
+                                {addedToList ? (
+                                    <AiOutlineCheck className="h-7 w-7" />
+                                ) : (
+                                    <AiOutlinePlus className="h-7 w-7" />
+                                )}
                             </button>
                             <button className="modalButton">
                                 <HiOutlineThumbUp className="h-6 w-6" />

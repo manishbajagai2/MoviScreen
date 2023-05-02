@@ -40,7 +40,7 @@ export const Billboard = ({type}) => {
         setTimeout(() => {
             setShowBlock(false)
             setFade(true)
-        }, 10000)
+        }, 8000)
     }, [])
 
     const handlePlayer = () => {

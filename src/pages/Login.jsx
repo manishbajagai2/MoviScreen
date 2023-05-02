@@ -7,7 +7,7 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"
 import { firebaseAuth } from "../utils/firebase-config"
 
 import { device } from "../utils/device"
-import { toast } from "react-hot-toast"
+import { Toaster, toast } from "react-hot-toast"
 
 import styled from "styled-components"
 import BackgroundImage from "../components/BackgroundImage"
@@ -39,6 +39,7 @@ function Login() {
 
     return (
         <Container>
+            <Toaster />
             <BackgroundImage />
             <div className="content">
                 <Header />

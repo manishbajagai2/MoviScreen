@@ -6,7 +6,6 @@ import { useRef, useState } from "react"
 import Thumbnail from "./Thumbnail"
 
 function Row({ title, movies }) {
-    console.log(movies);
     const rowRef = useRef(null)
     const [isMoved, setIsMoved] = useState(false)
 

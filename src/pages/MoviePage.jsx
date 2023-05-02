@@ -30,7 +30,6 @@ function MoviePage() {
             setRowMovies(movieValues)
         }
     }, [movieValues])
-    console.log(rowMovies)
 
     const navigate = useNavigate()
     useEffect(() => {

@@ -12,11 +12,22 @@ import Row from "../components/Row"
 import useModalState from "../hooks/useModalState"
 import Modal from "../components/Modal"
 import { requests } from "../utils/constants"
+import useList from "../hooks/useList"
 
 function Home() {
     const { showModal } = useModalState()
 
+    const [user, setUser] = useState(undefined)
 
+    const navigate = useNavigate()
+    useEffect(() => {
+        onAuthStateChanged(firebaseAuth, (currentUser) => {
+            if (currentUser) setUser(currentUser)
+            else navigate("/login")
+        })
+    }, [navigate])
+
+    const list = useList(user?.uid)
 
     const urls = Object.values(requests)
     const { data: movieValues } = useSwr(
@@ -33,16 +44,6 @@ function Home() {
         }
     }, [movieValues])
 
-
-
-
-    const navigate = useNavigate()
-    useEffect(() => {
-        onAuthStateChanged(firebaseAuth, (currentUser) => {
-            if (!currentUser) navigate("/login")
-        })
-    }, [navigate])
-
     return (
         <div
             className={`relative h-screen ${
@@ -55,7 +56,7 @@ function Home() {
                 {rowMovies.length > 0 && (
                     <>
                         {Object.keys(requests)
-                            .slice(0, 4)
+                            .slice(0, 2)
                             .map((ele, index) => (
                                 <Row
                                     key={index + 10 * 2}
@@ -64,15 +65,17 @@ function Home() {
                                 />
                             ))}
                         {/* My List */}
-                        {/* {list.length > 0 && <Row title="My List" movies={list} />} */}
+                        {list.length > 0 && (
+                            <Row title="My List" movies={list} />
+                        )}
 
                         {Object.keys(requests)
-                            .slice(5)
+                            .slice(3)
                             .map((ele, index) => (
                                 <Row
-                                    key={index + 10 * 2}
+                                    key={index + 10 * 3}
                                     title={ele}
-                                    movies={rowMovies[index + 5]?.results}
+                                    movies={rowMovies[index + 3]?.results}
                                 />
                             ))}
                     </>

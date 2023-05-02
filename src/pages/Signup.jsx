@@ -10,7 +10,7 @@ import BackgroundImage from "../components/BackgroundImage"
 import Header from "../components/Header"
 import { firebaseAuth } from "../utils/firebase-config"
 import { device } from "../utils/device"
-import { toast } from "react-hot-toast"
+import { Toaster, toast } from "react-hot-toast"
 
 import { FiChevronRight } from "react-icons/fi"
 
@@ -70,6 +70,7 @@ function Signup() {
 
     return (
         <Container showPassword={showPassword}>
+            <Toaster />
             <BackgroundImage />
             <div className="content">
                 <Header login={true} />

@@ -1,7 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 
-import { Toaster } from "react-hot-toast"
-
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Home from "./pages/Home"
@@ -17,7 +15,6 @@ import TestComp from "./components/TestComp"
 function App() {
     return (
         <>
-            <Toaster />
             <BrowserRouter>
                 <Routes>
                     <Route exact path="/test" element={<TestComp />} />
