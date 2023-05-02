@@ -35,7 +35,6 @@ function Modal() {
             else navigate("/login")
         })
     }, [navigate])
-    
 
     const [addedToList, setAddedToList] = useState(false)
     const [movies, setMovies] = useState([])
@@ -91,7 +90,7 @@ function Modal() {
                 (snapshot) => setMovies(snapshot.docs)
             )
         }
-    }, [db, movie?.id, user])
+    }, [movie?.id, user])
 
     // Check if the movie is already in the user's list
     useEffect(
