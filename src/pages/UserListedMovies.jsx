@@ -39,11 +39,11 @@ function UserListedMovies() {
             }`}
         >
             <Navbar />
-            <section className="pl-8 pt-16 md:pl-10 md:pt-20 lg:pt-28 font-bold text-gray-400">
+            <section className="px-4 pt-16 md:px-8 md:pt-20 lg:pt-28 font-bold text-gray-400">
                 <h1 className="mb-4 md:mb-6 lg:mb-10 text-xl md:text-2xl lg:text-3xl lg:font-semibold">
                     My List
                 </h1>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:flex xl:flex-wrap gap-2">
                     {listMovies.length > 0 && (
                         <>
                             {listMovies.map((ele) => (
