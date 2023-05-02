@@ -7,12 +7,12 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import useMovieState from "../hooks/useMovieState"
 import useModalState from "../hooks/useModalState"
-import useBannerMovies from "../hooks/useBannerMovies"
 import { onAuthStateChanged } from "firebase/auth"
 import { firebaseAuth } from "../utils/firebase-config"
+import useBillboardMovie from "../hooks/useBillboardMovie"
 
 export const Billboard = ({type}) => {
-    const { data } = useBannerMovies(type)
+    const { data } = useBillboardMovie(type)
 
     const navigate = useNavigate()
 

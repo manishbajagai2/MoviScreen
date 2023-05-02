@@ -2,7 +2,7 @@ import useSwr from "swr"
 import fetcher from "../libs/fetcher"
 import { TMDB_API_KEY, TMDB_BASE_URL } from "../utils/constants"
 
-const useBannerMovies = (type) => {
+const useBillboardMovie = (type) => {
     const { data, error, isLoading } = useSwr(
         `${TMDB_BASE_URL}/trending/${type}/week?api_key=${TMDB_API_KEY}`,
         fetcher,
@@ -19,4 +19,4 @@ const useBannerMovies = (type) => {
     }
 }
 
-export default useBannerMovies
+export default useBillboardMovie

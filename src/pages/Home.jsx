@@ -16,6 +16,8 @@ import { requests } from "../utils/constants"
 function Home() {
     const { showModal } = useModalState()
 
+
+
     const urls = Object.values(requests)
     const { data: movieValues } = useSwr(
         urls,
@@ -30,6 +32,9 @@ function Home() {
             setRowMovies(movieValues)
         }
     }, [movieValues])
+
+
+
 
     const navigate = useNavigate()
     useEffect(() => {
